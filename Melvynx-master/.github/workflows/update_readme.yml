@@ -12,15 +12,20 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
+      - name: List files
+        run: ls -la
+      
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '14.x'
           
       - name: Install dependencies and update README
+        working-directory: ./Melvynx-master
         run: |
           npm ci
           node index.js > README.md
+          cp README.md ../
         env:
           CI: true
           
