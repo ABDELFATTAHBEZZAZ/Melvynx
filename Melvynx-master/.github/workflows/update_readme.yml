@@ -12,13 +12,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
-      - name: Show directory structure
+      - name: Verify file structure
         run: |
           echo "Current directory:"
           pwd
           echo "Contents:"
           ls -la
-          echo "Contents of Melvynx-master:"
+          echo "Melvynx-master contents:"
           ls -la Melvynx-master/
       
       - name: Setup Node.js
@@ -29,8 +29,7 @@ jobs:
       - name: Install dependencies and update README
         run: |
           cd Melvynx-master
-          echo "Current directory after cd:"
-          pwd
+          echo "Current directory after cd: $(pwd)"
           echo "Contents:"
           ls -la
           npm ci
