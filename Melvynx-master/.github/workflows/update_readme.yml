@@ -12,8 +12,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
-      - name: List files
-        run: ls -la
+      - name: Show directory structure
+        run: |
+          echo "Current directory:"
+          pwd
+          echo "Contents:"
+          ls -la
+          echo "Contents of Melvynx-master:"
+          ls -la Melvynx-master/
       
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -21,8 +27,12 @@ jobs:
           node-version: '14.x'
           
       - name: Install dependencies and update README
-        working-directory: ./Melvynx-master
         run: |
+          cd Melvynx-master
+          echo "Current directory after cd:"
+          pwd
+          echo "Contents:"
+          ls -la
           npm ci
           node index.js > README.md
           cp README.md ../
