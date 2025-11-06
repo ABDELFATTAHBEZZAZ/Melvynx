@@ -1,0 +1,49 @@
+name: Update README daily at 04:04 UTC
+
+on:
+  push:
+  workflow_dispatch:
+  schedule:
+    - cron: '04 4 * * *'
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Verify file structure
+        run: |
+          echo "Current directory:"
+          pwd
+          echo "Contents:"
+          ls -la
+          echo "Melvynx-master contents:"
+          ls -la Melvynx-master/
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14.x'
+          
+      - name: Install dependencies and update README
+        run: |
+          cd Melvynx-master
+          echo "Current directory after cd: $(pwd)"
+          echo "Contents:"
+          ls -la
+          npm ci
+          node index.js > README.md
+          cp README.md ../
+        env:
+          CI: true
+          
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v4
+        with:
+          author_name: Abdelfattah BEZZAZ
+          author_email: abdelfatah.bezzaz@um5r.ac.ma
+          add: 'README.md'
+          message: ':memo: README.md updated automatically'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
